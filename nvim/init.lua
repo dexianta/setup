@@ -8,8 +8,8 @@ local nv = vim.api.nvim_command
 local keymap = vim.api.nvim_set_keymap
 
 nv('set number')
+nv('set t_Co=256')
 nv('set autowriteall')
-nv('set relativenumber')
 nv('set encoding=UTF-8')
 nv('set shiftwidth=4')
 nv('set softtabstop=4')
@@ -23,8 +23,6 @@ nv('set hlsearch')
 nv('set noswapfile')
 nv('set hidden')
 nv('set scrolloff=8')
-nv('set signcolumn=yes:1')
--- 100ms delay to update the signcolumn (gitgutter)
 nv('set updatetime=100')
 nv('set nofoldenable')
 nv('set foldlevel=99')
@@ -42,7 +40,10 @@ require('packer').startup(function()
     use 'wbthomason/packer.nvim'
     use 'itchyny/lightline.vim'
     use 'arzg/vim-colors-xcode'
-    use 'airblade/vim-gitgutter'
+    use {
+        "sonph/onehalf",
+        rtp = "vim/",
+    }
     use 'nvim-telescope/telescope-fzf-native.nvim'
 
     use 'nvim-lua/plenary.nvim'
@@ -52,6 +53,7 @@ require('packer').startup(function()
         'akinsho/toggleterm.nvim',
         tag = '*'
     }
+    use {'lewis6991/gitsigns.nvim'}
     -- IDE
     use {
         'nvim-treesitter/nvim-treesitter',
@@ -72,6 +74,7 @@ require('packer').startup(function()
 
     use 'L3MON4D3/LuaSnip'
     use 'saadparwaiz1/cmp_luasnip'
+    use 'rafamadriz/friendly-snippets'
 
 
     use 'vimwiki/vimwiki'
@@ -101,7 +104,7 @@ require('packer').startup(function()
 end)
 
 vim.g['lightline'] = {
-    active = { left = { { 'mode', 'paste' }, { 'readonly', 'absolutepath', 'modified' } } }
+    active = {left = {{ 'mode', 'paste' }, { 'readonly', 'absolutepath', 'modified' }}}
 }
 
 
@@ -152,15 +155,55 @@ nkeymap('<space>ff', ":lua require('telescope.builtin').find_files({hidden=true,
 nkeymap('<space>fg', ":lua require('telescope.builtin').live_grep()<cr>")
 
 nkeymap('<space>dr', ":NvimTreeToggle<cr>")
+nkeymap('<space>df', ":NvimTreeFindFile<cr>")
 
-------------
--- gitgutter
-------------
-nv('highlight GitGutterAdd guifg=#009900 ctermfg=Green')
-nv('highlight GitGutterChange guifg=#bbbb00 ctermfg=Yellow')
-nv('highlight GitGutterDelete guifg=#ff2222 ctermfg=Red')
-vim.g.gitgutter_enabled = 1
 
+
+-------------
+-- gitsign  
+-------------
+require('gitsigns').setup {
+  signs = {
+    add          = { hl = 'GitSignsAdd'   , text = '‖', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'    },
+    change       = { hl = 'GitSignsChange', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn' },
+    delete       = { hl = 'GitSignsDelete', text = '_', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn' },
+    topdelete    = { hl = 'GitSignsDelete', text = '‾', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn' },
+    changedelete = { hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn' },
+    untracked    = { hl = 'GitSignsAdd'   , text = '┆', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'    },
+  },
+  signcolumn = true,  -- Toggle with `:Gitsigns toggle_signs`
+  numhl      = true, -- Toggle with `:Gitsigns toggle_numhl`
+  linehl     = false, -- Toggle with `:Gitsigns toggle_linehl`
+  word_diff  = false, -- Toggle with `:Gitsigns toggle_word_diff`
+  watch_gitdir = {
+    interval = 1000,
+    follow_files = true
+  },
+  attach_to_untracked = true,
+  current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
+  current_line_blame_opts = {
+    virt_text = true,
+    virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
+    delay = 1000,
+    ignore_whitespace = false,
+  },
+  current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <summary>',
+  sign_priority = 6,
+  update_debounce = 100,
+  status_formatter = nil, -- Use default
+  max_file_length = 40000, -- Disable if file is longer than this (in lines)
+  preview_config = {
+    -- Options passed to nvim_open_win
+    border = 'single',
+    style = 'minimal',
+    relative = 'cursor',
+    row = 0,
+    col = 1
+  },
+  yadm = {
+    enable = false
+  },
+}
 
 -------------
 -- toggleterm
@@ -181,6 +224,9 @@ require('toggleterm').setup {
 -------------
 -- CMP
 -------------
+
+require("luasnip.loaders.from_vscode").lazy_load()
+
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 local cmp = require 'cmp'
 cmp.setup({
@@ -209,9 +255,11 @@ cmp.setup({
                 end,
             },
         },
-    }, {
         { name = 'buffer' },
-    })
+    }),
+    experimental = {
+        ghost_text = true
+    }
 })
 
 -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
@@ -297,10 +345,6 @@ end
 -------------
 -- English check
 -------------
--- require('cmp').setup({
---     sources = {
---     },
--- })
 vim.opt.spell = true
 vim.opt.spelllang = { 'en_us' }
 
@@ -308,4 +352,4 @@ vim.opt.spelllang = { 'en_us' }
 ------------
 -- color scheme (seems to start at the end)
 ------------
-vim.cmd [[colorscheme xcodedark]]
+vim.cmd [[colorscheme onehalfdark]]
