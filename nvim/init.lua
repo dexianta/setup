@@ -44,6 +44,7 @@ require('packer').startup(function()
     use 'arzg/vim-colors-xcode'
     use 'airblade/vim-gitgutter'
     use 'nvim-telescope/telescope-fzf-native.nvim'
+
     use 'nvim-lua/plenary.nvim'
     use 'BurntSushi/ripgrep'
     use 'nvim-telescope/telescope.nvim'
