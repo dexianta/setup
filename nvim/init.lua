@@ -130,9 +130,6 @@ local function nkeymap(key, map)
     keymap('n', key, map, opts)
 end
 
--------------
--- key mapping
--------------
 keymap('i', '<C-s>', '<ESC> <Space>fm :wa<CR>', { noremap = false })
 keymap('n', '<C-s>', '<Space>fm :wa<CR>', { noremap = false })
 keymap('t', '<Esc>', "<C-\\><C-n>", { noremap = true })
@@ -141,6 +138,7 @@ nkeymap('gD', ':lua vim.lsp.buf.declaration()<CR>')
 nkeymap('gi', ':lua vim.lsp.buf.implementation()<CR>')
 nkeymap('gr', ':lua vim.lsp.buf.references()<CR>')
 nkeymap('K', ':lua vim.lsp.buf.hover()<CR>')
+nkeymap('<C-k>', ':lua vim.lsp.buf.signature_help()<CR>')
 vim.keymap.set('n', '<space>wl', function()
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 end, { noremap = true })
@@ -149,7 +147,6 @@ nkeymap('<space>rn', ':lua vim.lsp.buf.rename()<CR>')
 nkeymap('<space>ca', ':lua vim.lsp.buf.code_action()<CR>')
 nkeymap('<space>td', ':lua vim.lsp.buf.type_definition()<CR>')
 vim.keymap.set('n', '<space>fm', function() vim.lsp.buf.format { async = true } end, { noremap = true })
-nkeymap('<C-k>', ':lua vim.lsp.buf.signature_help()<CR>')
 nkeymap('<space>gs', ':! git status<CR>')
 nkeymap('<space>ff', ":lua require('telescope.builtin').find_files({hidden=true, no_ignore=true})<CR>")
 nkeymap('<space>fg', ":lua require('telescope.builtin').live_grep()<CR>")
@@ -352,14 +349,14 @@ require("nvim-tree").setup({
     },
 })
 
-nkeymap("<C-d>cb", ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>")
-nkeymap("<C-d>b", ":lua require'dap'.toggle_breakpoint()<CR>")
-nkeymap("<C-d>u", ":lua require'dapui'.toggle()<CR>")
-nkeymap("<C-d>t", ":lua require'dap-go'.debug_test()<CR>")
-nkeymap("<C-d>c", ":lua require'dap'.continue()<CR>")
-nkeymap("<C-d>l", ":lua require'dap'.run_last()<CR>")
-nkeymap("<C-d>n", ":lua require'dap'.step_over()<CR>")
-nkeymap("<C-d>i", ":lua require'dap'.step_into()<CR>")
+nkeymap("<C-a>cb", ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>")
+nkeymap("<C-a>b", ":lua require'dap'.toggle_breakpoint()<CR>")
+nkeymap("<C-a>u", ":lua require'dapui'.toggle()<CR>")
+nkeymap("<C-a>t", ":lua require'dap-go'.debug_test()<CR>")
+nkeymap("<C-a>c", ":lua require'dap'.continue()<CR>")
+nkeymap("<C-a>l", ":lua require'dap'.run_last()<CR>")
+nkeymap("<C-a>n", ":lua require'dap'.step_over()<CR>")
+nkeymap("<C-a>i", ":lua require'dap'.step_into()<CR>")
 -------------
 -- dap go
 -------------
