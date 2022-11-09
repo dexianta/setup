@@ -1,4 +1,4 @@
-------------
+-------
 -- global config
 ------------
 vim.g.loaded_netrw = 1
@@ -50,7 +50,7 @@ require('packer').startup(function()
         'akinsho/toggleterm.nvim',
         tag = '*'
     }
-    use {'lewis6991/gitsigns.nvim'}
+    use { 'lewis6991/gitsigns.nvim' }
 
     -- lsp etc
     use {
@@ -102,7 +102,7 @@ require('packer').startup(function()
 end)
 
 vim.g['lightline'] = {
-    active = {left = {{ 'mode', 'paste' }, { 'readonly', 'absolutepath', 'modified' }}}
+    active = { left = { { 'mode', 'paste' }, { 'readonly', 'absolutepath', 'modified' } } }
 }
 
 
@@ -133,74 +133,87 @@ end
 -------------
 -- key mapping
 -------------
+keymap('i', '<C-s>', '<ESC> <Space>fm :wa<CR>', { noremap = false })
+keymap('n', '<C-s>', '<Space>fm :wa<CR>', { noremap = false })
 keymap('t', '<Esc>', "<C-\\><C-n>", { noremap = true })
-nkeymap('gd', ':lua vim.lsp.buf.definition()<cr>')
-nkeymap('gD', ':lua vim.lsp.buf.declaration()<cr>')
-nkeymap('gi', ':lua vim.lsp.buf.implementation()<cr>')
-nkeymap('gr', ':lua vim.lsp.buf.references()<cr>')
-nkeymap('K', ':lua vim.lsp.buf.hover()<cr>')
+nkeymap('gd', ':lua vim.lsp.buf.definition()<CR>')
+nkeymap('gD', ':lua vim.lsp.buf.declaration()<CR>')
+nkeymap('gi', ':lua vim.lsp.buf.implementation()<CR>')
+nkeymap('gr', ':lua vim.lsp.buf.references()<CR>')
+nkeymap('K', ':lua vim.lsp.buf.hover()<CR>')
 vim.keymap.set('n', '<space>wl', function()
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 end, { noremap = true })
 nkeymap('<space>wa', ':lua vim.lsp.buf.add_workspace_folder()')
-nkeymap('<space>rn', ':lua vim.lsp.buf.rename()<cr>')
-nkeymap('<space>ca', ':lua vim.lsp.buf.code_action()<cr>')
-nkeymap('<space>td', ':lua vim.lsp.buf.type_definition()<cr>')
+nkeymap('<space>rn', ':lua vim.lsp.buf.rename()<CR>')
+nkeymap('<space>ca', ':lua vim.lsp.buf.code_action()<CR>')
+nkeymap('<space>td', ':lua vim.lsp.buf.type_definition()<CR>')
 vim.keymap.set('n', '<space>fm', function() vim.lsp.buf.format { async = true } end, { noremap = true })
-nkeymap('<C-k>', ':lua vim.lsp.buf.signature_help()<cr>')
-nkeymap('<space>gs', ':! git status<cr>')
-nkeymap('<space>ff', ":lua require('telescope.builtin').find_files({hidden=true, no_ignore=true})<cr>")
-nkeymap('<space>fg', ":lua require('telescope.builtin').live_grep()<cr>")
+nkeymap('<C-k>', ':lua vim.lsp.buf.signature_help()<CR>')
+nkeymap('<space>gs', ':! git status<CR>')
+nkeymap('<space>ff', ":lua require('telescope.builtin').find_files({hidden=true, no_ignore=true})<CR>")
+nkeymap('<space>fg', ":lua require('telescope.builtin').live_grep()<CR>")
 
-nkeymap('<space>dr', ":NvimTreeToggle<cr>")
-nkeymap('<space>df', ":NvimTreeFindFile<cr>")
+---------------
+-- draw quick separate line
+---------------
+nkeymap('<C-l>l', "15i-<ESC>")
+
+-------------
+-- vimrc
+-------------
+nkeymap('<C-v>e', ":e $MYVIMRC<CR>")
+nkeymap('<C-v>s', ":so $MYVIMRC<CR>")
+
+nkeymap('<space>dr', ":NvimTreeToggle<CR>")
+nkeymap('<space>df', ":NvimTreeFindFile<CR>")
 
 
 
 -------------
--- gitsign  
+-- gitsign
 -------------
 require('gitsigns').setup {
-  signs = {
-    add          = { hl = 'GitSignsAdd'   , text = '‖', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'    },
-    change       = { hl = 'GitSignsChange', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn' },
-    delete       = { hl = 'GitSignsDelete', text = '_', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn' },
-    topdelete    = { hl = 'GitSignsDelete', text = '‾', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn' },
-    changedelete = { hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn' },
-    untracked    = { hl = 'GitSignsAdd'   , text = '┆', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'    },
-  },
-  signcolumn = true,  -- Toggle with `:Gitsigns toggle_signs`
-  numhl      = true, -- Toggle with `:Gitsigns toggle_numhl`
-  linehl     = false, -- Toggle with `:Gitsigns toggle_linehl`
-  word_diff  = false, -- Toggle with `:Gitsigns toggle_word_diff`
-  watch_gitdir = {
-    interval = 1000,
-    follow_files = true
-  },
-  attach_to_untracked = true,
-  current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
-  current_line_blame_opts = {
-    virt_text = true,
-    virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
-    delay = 1000,
-    ignore_whitespace = false,
-  },
-  current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <summary>',
-  sign_priority = 6,
-  update_debounce = 100,
-  status_formatter = nil, -- Use default
-  max_file_length = 40000, -- Disable if file is longer than this (in lines)
-  preview_config = {
-    -- Options passed to nvim_open_win
-    border = 'single',
-    style = 'minimal',
-    relative = 'cursor',
-    row = 0,
-    col = 1
-  },
-  yadm = {
-    enable = false
-  },
+    signs                        = {
+        add          = { hl = 'GitSignsAdd', text = '‖', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
+        change       = { hl = 'GitSignsChange', text = '│', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
+        delete       = { hl = 'GitSignsDelete', text = '_', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
+        topdelete    = { hl = 'GitSignsDelete', text = '‾', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
+        changedelete = { hl = 'GitSignsChange', text = '~', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
+        untracked    = { hl = 'GitSignsAdd', text = '┆', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
+    },
+    signcolumn                   = true, -- Toggle with `:Gitsigns toggle_signs`
+    numhl                        = true, -- Toggle with `:Gitsigns toggle_numhl`
+    linehl                       = false, -- Toggle with `:Gitsigns toggle_linehl`
+    word_diff                    = false, -- Toggle with `:Gitsigns toggle_word_diff`
+    watch_gitdir                 = {
+        interval = 1000,
+        follow_files = true
+    },
+    attach_to_untracked          = true,
+    current_line_blame           = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
+    current_line_blame_opts      = {
+        virt_text = true,
+        virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
+        delay = 1000,
+        ignore_whitespace = false,
+    },
+    current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <summary>',
+    sign_priority                = 6,
+    update_debounce              = 100,
+    status_formatter             = nil, -- Use default
+    max_file_length              = 40000, -- Disable if file is longer than this (in lines)
+    preview_config               = {
+        -- Options passed to nvim_open_win
+        border = 'single',
+        style = 'minimal',
+        relative = 'cursor',
+        row = 0,
+        col = 1
+    },
+    yadm                         = {
+        enable = false
+    },
 }
 
 -------------
@@ -222,15 +235,19 @@ require('toggleterm').setup {
 -------------
 -- CMP
 -------------
+local has_words_before = function()
+    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
 
 require("luasnip.loaders.from_vscode").lazy_load()
-
-vim.opt.completeopt = { "menu", "menuone", "noselect" }
+local luasnip = require('luasnip')
 local cmp = require 'cmp'
+vim.opt.completeopt = { "menu", "menuone", "noselect" }
 cmp.setup({
     snippet = {
         expand = function(args)
-            require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+            luasnip.lsp_expand(args.body) -- For `luasnip` users.
         end
     },
     mapping = cmp.mapping.preset.insert({
@@ -239,6 +256,17 @@ cmp.setup({
         ['<C-Space>'] = cmp.mapping.complete(),
         ['<C-e>'] = cmp.mapping.abort(),
         ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        ["<Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_next_item()
+            elseif luasnip.expand_or_jumpable() then
+                luasnip.expand_or_jump()
+            elseif has_words_before() then
+                cmp.complete()
+            else
+                fallback()
+            end
+        end, { "i", "s" }),
     }),
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
@@ -281,7 +309,18 @@ cmp.setup.cmdline(':', {
 -- Set up lspconfig.
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 require('lspconfig')['gopls'].setup {
+    cmd = { 'gopls' },
     capabilities = capabilities,
+    settings = {
+        gopls = {
+            experimentalPostfixCompletions = true,
+            analyses = {
+                unusedparams = true,
+                shadow = true,
+            },
+            staticcheck = true,
+        },
+    },
 }
 
 
@@ -313,14 +352,14 @@ require("nvim-tree").setup({
     },
 })
 
-nkeymap("<space>n", ":lua require'dap'.step_over()<CR>")
-nkeymap("<space>dq", ":lua require'dap'.()<CR>")
-nkeymap("<space>si", ":lua require'dap'.step_into()<CR>")
-nkeymap("<space>b", ":lua require'dap'.toggle_breakpoint()<CR>")
-nkeymap("<silent><space>B", ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>")
-nkeymap("<space>c", ":lua require'dap'.continue()<CR>")
-nkeymap("<space>t", ":lua require'dap-go'.debug_test()<CR>")
-nkeymap("<space>ui", ":lua require'dapui'.toggle()<CR>")
+nkeymap("<C-d>cb", ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>")
+nkeymap("<C-d>b", ":lua require'dap'.toggle_breakpoint()<CR>")
+nkeymap("<C-d>u", ":lua require'dapui'.toggle()<CR>")
+nkeymap("<C-d>t", ":lua require'dap-go'.debug_test()<CR>")
+nkeymap("<C-d>c", ":lua require'dap'.continue()<CR>")
+nkeymap("<C-d>l", ":lua require'dap'.run_last()<CR>")
+nkeymap("<C-d>n", ":lua require'dap'.step_over()<CR>")
+nkeymap("<C-d>i", ":lua require'dap'.step_into()<CR>")
 -------------
 -- dap go
 -------------
