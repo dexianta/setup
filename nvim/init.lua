@@ -40,10 +40,7 @@ require('packer').startup(function()
     use 'wbthomason/packer.nvim'
     use 'itchyny/lightline.vim'
     use 'arzg/vim-colors-xcode'
-    use {
-        "sonph/onehalf",
-        rtp = "vim/",
-    }
+    use { "catppuccin/nvim", as = "catppuccin" }
     use 'nvim-telescope/telescope-fzf-native.nvim'
 
     use 'nvim-lua/plenary.nvim'
@@ -54,7 +51,8 @@ require('packer').startup(function()
         tag = '*'
     }
     use {'lewis6991/gitsigns.nvim'}
-    -- IDE
+
+    -- lsp etc
     use {
         'nvim-treesitter/nvim-treesitter',
         run = ':TSUpdate'
@@ -76,7 +74,7 @@ require('packer').startup(function()
     use 'saadparwaiz1/cmp_luasnip'
     use 'rafamadriz/friendly-snippets'
 
-
+    -- vimwiki
     use 'vimwiki/vimwiki'
 
     -- file browsing
@@ -352,4 +350,4 @@ vim.opt.spelllang = { 'en_us' }
 ------------
 -- color scheme (seems to start at the end)
 ------------
-vim.cmd [[colorscheme onehalfdark]]
+vim.cmd [[colorscheme catppuccin]]
