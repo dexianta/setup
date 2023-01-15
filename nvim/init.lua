@@ -8,6 +8,7 @@ local nv = vim.api.nvim_command
 local keymap = vim.api.nvim_set_keymap
 
 nv('set number')
+nv('set relativenumber')
 nv('set t_Co=256')
 nv('set autowriteall')
 nv('set encoding=UTF-8')
@@ -43,6 +44,7 @@ require('packer').startup(function()
   use 'arzg/vim-colors-xcode'
   use { "catppuccin/nvim", as = "catppuccin" }
   use { "folke/tokyonight.nvim" }
+  use { 'bluz71/vim-moonfly-colors', branch = 'cterm-compat' }
   use 'nvim-telescope/telescope-fzf-native.nvim'
 
   use 'nvim-lua/plenary.nvim'
@@ -135,8 +137,8 @@ local function nkeymap(key, map)
   keymap('n', key, map, opts)
 end
 
-keymap('i', '<C-s>', '<ESC> <Space>fm :wa<CR>', { noremap = false })
-keymap('n', '<C-s>', '<Space>fm :wa<CR>', { noremap = false })
+keymap('i', '<C-s>', '<ESC> <Space>fm :wa<CR> :NvimTreeRefresh<CR>', { noremap = false })
+keymap('n', '<C-s>', '<Space>fm :wa<CR> :NvimTreeRefresh<CR>', { noremap = false })
 keymap('t', '<Esc>', "<C-\\><C-n>", { noremap = true })
 nkeymap('gd', ':lua vim.lsp.buf.definition()<CR>')
 nkeymap('gD', ':lua vim.lsp.buf.declaration()<CR>')
@@ -396,7 +398,29 @@ nkeymap("<Leader>i", ":lua require'dap'.step_into()<CR>")
 -- dap go
 -------------
 require('dap-go').setup()
-require('dapui').setup()
+require('dapui').setup({
+  layouts = {
+    {
+      elements = {
+        -- Elements can be strings or table with id and size keys.
+        { id = "scopes", size = 0.25 },
+        "breakpoints",
+        "stacks",
+        -- "watches",
+      },
+      size = 40, -- 40 columns
+      position = "left",
+    },
+    {
+      elements = {
+        "repl",
+        -- "console"
+      },
+      size = 0.25, -- 25% of total lines
+      position = "bottom",
+    },
+  },
+})
 require('nvim-dap-virtual-text').setup()
 
 local dap, dapui = require('dap'), require('dapui')
@@ -421,4 +445,4 @@ vim.opt.spelllang = { 'en_us' }
 ------------
 -- color scheme (seems to start at the end)
 ------------
-vim.cmd [[colorscheme tokyonight]]
+vim.cmd [[colorscheme moonfly]]
