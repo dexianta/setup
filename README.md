@@ -1,2 +1,2 @@
 # basic shell setup
-Mainly for local setup (zsh, neovim config, etc)
+Mainly for personal local setup (zsh, neovim config, etc)
