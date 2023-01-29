@@ -105,6 +105,14 @@ require('packer').startup(function()
 
   -- highlight
   use 'RRethy/vim-illuminate'
+  -- trouble
+  use {
+    "folke/trouble.nvim",
+    requires = "nvim-tree/nvim-web-devicons",
+    config = function()
+      require("trouble").setup {}
+    end
+  }
 end)
 
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
@@ -158,6 +166,7 @@ vim.keymap.set('n', '<space>fm', function() vim.lsp.buf.format { async = true } 
 nkeymap('<space>gs', ':! git status<CR>')
 nkeymap('<space>ff', ":lua require('telescope.builtin').find_files({hidden=true, no_ignore=true})<CR>")
 nkeymap('<space>fg', ":lua require('telescope.builtin').live_grep()<CR>")
+nkeymap('gR', "<cmd>TroubleToggle lsp_references<CR>")
 
 ---------------
 -- draw quick separate line
@@ -372,6 +381,7 @@ require("nvim-tree").setup({
         { key = "u", action = "dir_up" },
       },
     },
+    relativenumber = true,
   },
   renderer = {
     group_empty = true,
