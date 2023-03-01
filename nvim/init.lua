@@ -45,11 +45,15 @@ require('packer').startup(function()
   use { "catppuccin/nvim", as = "catppuccin" }
   use { "folke/tokyonight.nvim" }
   use { 'bluz71/vim-moonfly-colors', branch = 'cterm-compat' }
+  use { "catppuccin/nvim", as = "catppuccin" }
   use 'nvim-telescope/telescope-fzf-native.nvim'
 
-  use 'nvim-lua/plenary.nvim'
   use 'BurntSushi/ripgrep'
-  use 'nvim-telescope/telescope.nvim'
+  use {
+    'nvim-telescope/telescope.nvim', tag = '0.1.1',
+    requires = { { 'nvim-lua/plenary.nvim' } }
+  }
+
   use {
     'akinsho/toggleterm.nvim',
     tag = '*'
@@ -446,6 +450,15 @@ end
 
 
 -------------
+-- telescope
+-------------
+require('telescope').setup({
+  pickers = {
+    current_buffer_fuzzy_find = { sorting_strategy = 'ascending' },
+  },
+})
+
+-------------
 -- English check
 -------------
 vim.opt.spell = true
@@ -455,4 +468,4 @@ vim.opt.spelllang = { 'en_us' }
 ------------
 -- color scheme (seems to start at the end)
 ------------
-vim.cmd [[colorscheme moonfly]]
+vim.cmd [[colorscheme catppuccin]]
