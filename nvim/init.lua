@@ -136,7 +136,6 @@ require("packer").startup(function()
   use({ "catppuccin/nvim", as = "catppuccin" })
   use({ "folke/tokyonight.nvim" })
   use({ "bluz71/vim-moonfly-colors", branch = "cterm-compat" })
-  use({ "catppuccin/nvim", as = "catppuccin" })
 end)
 
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
