@@ -41,11 +41,6 @@ vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 require("packer").startup(function()
   use("wbthomason/packer.nvim")
   use("itchyny/lightline.vim")
-  use("arzg/vim-colors-xcode")
-  use({ "catppuccin/nvim", as = "catppuccin" })
-  use({ "folke/tokyonight.nvim" })
-  use({ "bluz71/vim-moonfly-colors", branch = "cterm-compat" })
-  use({ "catppuccin/nvim", as = "catppuccin" })
   use("nvim-telescope/telescope-fzf-native.nvim")
 
   use("BurntSushi/ripgrep")
@@ -134,6 +129,14 @@ require("packer").startup(function()
       require("trouble").setup({})
     end,
   })
+
+  -- color schemes
+  use("sainnhe/everforest")
+  use("arzg/vim-colors-xcode")
+  use({ "catppuccin/nvim", as = "catppuccin" })
+  use({ "folke/tokyonight.nvim" })
+  use({ "bluz71/vim-moonfly-colors", branch = "cterm-compat" })
+  use({ "catppuccin/nvim", as = "catppuccin" })
 end)
 
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
