@@ -102,8 +102,3 @@ require("packer").startup(function()
   use({ "michaelb/sniprun", run = "bash ./install.sh" })
 end)
 
-vim.opt.completeopt = { "menu", "menuone", "noselect" }
-vim.g["lightline"] = {
-  active = { left = { { "mode", "paste" }, { "readonly", "absolutepath", "modified" } } },
-}
-

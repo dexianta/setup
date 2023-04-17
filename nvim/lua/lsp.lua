@@ -41,7 +41,7 @@ require("neodev").setup({
 -- mason setup (lsp config)
 require("mason").setup()
 require("mason-lspconfig").setup({
-  ensure_installed = { "lua_ls", "gopls" },
+  ensure_installed = { "lua_ls", "gopls", "pylsp" },
 })
 
 local null_ls = require("null-ls")
@@ -72,7 +72,11 @@ lspconfig.gopls.setup({
     },
   },
 })
+lspconfig.pylsp.setup({})
+lspconfig.pyre.setup({})
 lspconfig.lua_ls.setup({})
+lspconfig.rust_analyzer.setup({})
+
 
 require("sniprun").setup({
   interpreter_options = {
