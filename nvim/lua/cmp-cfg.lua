@@ -3,6 +3,24 @@ local has_words_before = function()
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
+local kind_order = {
+  Text = 1,
+  Variable = 9,
+  Function = 8,
+  Module = 7,
+}
+
+local function custom_comparator(entry1, entry2)
+  local entry1_priority = kind_order[entry1.completion_item.kind] or 0
+  local entry2_priority = kind_order[entry2.completion_item.kind] or 0
+
+  if entry1_priority ~= entry2_priority then
+    return entry1_priority > entry2_priority
+  end
+  return nil -- fallback to default comparators
+end
+
+local lspkind = require("lspkind")
 require("luasnip.loaders.from_vscode").lazy_load()
 local luasnip = require("luasnip")
 local cmp = require("cmp")
@@ -46,6 +64,20 @@ cmp.setup({
     },
     { name = "buffer" },
   }),
+  sorting = {
+    kind_labels = lspkind.presets.default,
+    priority_weight = 1,
+    comparators = {
+      custom_comparator,
+      cmp.config.compare.offset,
+      cmp.config.compare.exact,
+      cmp.config.compare.kind,
+      cmp.config.compare.sort_text,
+    },
+  },
+  formatting = {
+    format = lspkind.cmp_format({ with_text = true, maxwidth = 50 }),
+  },
   experimental = {
     ghost_text = true,
   },

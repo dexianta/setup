@@ -77,7 +77,6 @@ lspconfig.pyre.setup({})
 lspconfig.lua_ls.setup({})
 lspconfig.rust_analyzer.setup({})
 
-
 require("sniprun").setup({
   interpreter_options = {
     Go_original = {

@@ -144,6 +144,11 @@ _G.packer_plugins = {
     path = "/Users/dexian/.local/share/nvim/site/pack/packer/start/lightline.vim",
     url = "https://github.com/itchyny/lightline.vim"
   },
+  ["lspkind-nvim"] = {
+    loaded = true,
+    path = "/Users/dexian/.local/share/nvim/site/pack/packer/start/lspkind-nvim",
+    url = "https://github.com/onsails/lspkind-nvim"
+  },
   ["mason-lspconfig.nvim"] = {
     loaded = true,
     path = "/Users/dexian/.local/share/nvim/site/pack/packer/start/mason-lspconfig.nvim",

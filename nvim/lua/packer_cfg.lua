@@ -35,6 +35,7 @@ require("packer").startup(function()
   use("hrsh7th/cmp-cmdline")
   use("hrsh7th/cmp-nvim-lsp")
   use("hrsh7th/cmp-nvim-lua")
+  use("onsails/lspkind-nvim")
 
   -- snippet
   use("hrsh7th/vim-vsnip")
@@ -101,4 +102,3 @@ require("packer").startup(function()
   -- run code
   use({ "michaelb/sniprun", run = "bash ./install.sh" })
 end)
-
