@@ -58,8 +58,12 @@ null_ls.setup({
 })
 
 -- Set up lspconfig.
+local navbuddy = require("nvim-navbuddy")
 local lspconfig = require("lspconfig")
 lspconfig.gopls.setup({
+  on_attach = function(client, bufnr)
+    navbuddy.attach(client, bufnr)
+  end,
   cmd = { "gopls" },
   settings = {
     gopls = {
