@@ -1,5 +1,14 @@
 require("nvim-treesitter.configs").setup({
-  ensure_installed = { "help", "javascript", "typescript", "go", "c", "bash", "html", "python" },
+  ensure_installed = {
+    "vimdoc",
+    "javascript",
+    "typescript",
+    "go",
+    "c",
+    "bash",
+    "html",
+    "python",
+  },
   auto_install = true,
   highlight = {
     enable = true,
@@ -19,7 +28,6 @@ keymap("n", "<C-k>", ":lua vim.lsp.buf.signature_help()<CR>")
 vim.keymap.set("n", "<space>wl", function()
   print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 end, { noremap = true })
-keymap("n", "<C-k>", ":lua vim.lsp.buf.signature_help()<CR>")
 keymap("n", "<space>wa", ":lua vim.lsp.buf.add_workspace_folder()")
 keymap("n", "<space>rn", ":lua vim.lsp.buf.rename()<CR>")
 keymap("n", "<space>ca", ":lua vim.lsp.buf.code_action()<CR>")

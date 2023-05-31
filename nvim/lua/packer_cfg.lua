@@ -39,12 +39,13 @@ require("packer").startup(function()
   use({
     "SmiteshP/nvim-navbuddy",
     requires = {
-        "neovim/nvim-lspconfig",
-        "SmiteshP/nvim-navic",
-        "MunifTanjim/nui.nvim",
-        "numToStr/Comment.nvim",        -- Optional
-        "nvim-telescope/telescope.nvim", -- Optional
-  }})
+      "neovim/nvim-lspconfig",
+      "SmiteshP/nvim-navic",
+      "MunifTanjim/nui.nvim",
+      "numToStr/Comment.nvim",      -- Optional
+      "nvim-telescope/telescope.nvim", -- Optional
+    },
+  })
   -- snippet
   use("hrsh7th/vim-vsnip")
   use("hrsh7th/cmp-vsnip")
