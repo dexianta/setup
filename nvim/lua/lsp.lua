@@ -27,7 +27,6 @@ keymap("n", "<space>td", ":lua vim.lsp.buf.type_definition()<CR>")
 vim.keymap.set("n", "<space>fm", function()
   vim.lsp.buf.format({ async = true })
 end, { noremap = true })
-keymap("n", "<space>gs", ":! git status<CR>")
 keymap("n", "gR", "<cmd>TroubleToggle lsp_references<CR>")
 
 -- neodev
