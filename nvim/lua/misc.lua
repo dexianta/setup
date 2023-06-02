@@ -1,7 +1,7 @@
 ---------------
 -- draw quick separate line
 ---------------
-keymap("n", "<C-l>l", "15i-<ESC>")
+keymap("n", "<C-l>l", "15i=<ESC>")
 
 -------------
 -- vimrc
@@ -11,7 +11,6 @@ keymap("n", "<C-v>s", ":so $MYVIMRC<CR>")
 
 vim.api.nvim_set_keymap("i", "<C-s>", "<ESC> <Space>fm :wa<CR> :NvimTreeRefresh<CR>", { noremap = false })
 vim.api.nvim_set_keymap("n", "<C-s>", "<Space>fm :wa<CR> :NvimTreeRefresh<CR>", { noremap = false })
-
 
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 vim.g["lightline"] = {
