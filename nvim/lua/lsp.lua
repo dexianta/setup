@@ -64,6 +64,14 @@ null_ls.setup({
 
 -- Set up lspconfig.
 local navbuddy = require("nvim-navbuddy")
+navbuddy.setup({
+  window = {
+    border = "single", -- "rounded", "double", "solid", "none"
+    -- or an array with eight chars building up the border in a clockwise fashion
+    -- starting with the top-left corner. eg: { "╔", "═" ,"╗", "║", "╝", "═", "╚", "║" }.
+    size = "80%", -- Or table format example: { height = "40%", width = "100%"}
+  },
+})
 local lspconfig = require("lspconfig")
 lspconfig.gopls.setup({
   on_attach = function(client, bufnr)
