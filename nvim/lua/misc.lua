@@ -1,4 +1,9 @@
 ---------------
+-- restart lsp server
+---------------
+keymap("n", "<C-l>r", ":LspStop<CR> :LspStart<CR>")
+
+---------------
 -- draw quick separate line
 ---------------
 keymap("n", "<C-l>l", "15i=<ESC>")
