@@ -72,6 +72,7 @@ navbuddy.setup({
     size = "80%", -- Or table format example: { height = "40%", width = "100%"}
   },
 })
+
 local lspconfig = require("lspconfig")
 lspconfig.gopls.setup({
   on_attach = function(client, bufnr)
@@ -89,7 +90,11 @@ lspconfig.gopls.setup({
     },
   },
 })
-lspconfig.pylsp.setup({})
+lspconfig.pylsp.setup({
+  on_attach = function(client, bufnr)
+    navbuddy.attach(client, bufnr)
+  end,
+})
 lspconfig.pyre.setup({})
 lspconfig.lua_ls.setup({})
 lspconfig.rust_analyzer.setup({})
