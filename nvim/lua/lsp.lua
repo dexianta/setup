@@ -46,7 +46,12 @@ require("neodev").setup({
 -- mason setup (lsp config)
 require("mason").setup()
 require("mason-lspconfig").setup({
-  ensure_installed = { "lua_ls", "gopls", "pylsp", "clangd" },
+  ensure_installed = {
+    "lua_ls",
+    "gopls",
+    "pylsp",
+    "clangd",
+  },
 })
 
 local null_ls = require("null-ls")

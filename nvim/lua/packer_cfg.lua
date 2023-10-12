@@ -42,7 +42,7 @@ require("packer").startup(function()
       "neovim/nvim-lspconfig",
       "SmiteshP/nvim-navic",
       "MunifTanjim/nui.nvim",
-      "numToStr/Comment.nvim",      -- Optional
+      "numToStr/Comment.nvim",         -- Optional
       "nvim-telescope/telescope.nvim", -- Optional
     },
   })
@@ -66,7 +66,7 @@ require("packer").startup(function()
     requires = {
       "nvim-tree/nvim-web-devicons", -- optional, for file icons
     },
-    tag = "nightly",              -- optional, updated every week. (see issue #1193)
+    tag = "nightly",                 -- optional, updated every week. (see issue #1193)
   })
 
   -- formatter / linter (should be after tree sitter)
@@ -79,6 +79,13 @@ require("packer").startup(function()
   })
   -- debugger
   use("mfussenegger/nvim-dap")
+  use({
+    "jay-babu/mason-nvim-dap.nvim",
+    dependencies = {
+      "williamboman/mason.nvim",
+      "mfussenegger/nvim-dap",
+    }
+  })
   use("leoluz/nvim-dap-go")
   use("rcarriga/nvim-dap-ui")
   use("theHamsta/nvim-dap-virtual-text")
