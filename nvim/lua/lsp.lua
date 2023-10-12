@@ -46,7 +46,7 @@ require("neodev").setup({
 -- mason setup (lsp config)
 require("mason").setup()
 require("mason-lspconfig").setup({
-  ensure_installed = { "lua_ls", "gopls", "pylsp" },
+  ensure_installed = { "lua_ls", "gopls", "pylsp", "clangd" },
 })
 
 local null_ls = require("null-ls")
@@ -98,6 +98,7 @@ lspconfig.pylsp.setup({
 lspconfig.pyre.setup({})
 lspconfig.lua_ls.setup({})
 lspconfig.rust_analyzer.setup({})
+lspconfig.clangd.setup({})
 vim.diagnostic.config({ virtual_text = false })
 vim.o.updatetime = 250
 vim.cmd([[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]])

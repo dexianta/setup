@@ -3,6 +3,12 @@
 ---------------
 keymap("n", "<C-l>r", ":LspStop<CR> :LspStart<CR>")
 
+
+---------------
+-- trailing white space
+---------------
+keymap("n", "<leader>tw", "/\\s\\+$<CR>")
+
 ---------------
 -- draw quick separate line
 ---------------
