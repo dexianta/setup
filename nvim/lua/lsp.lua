@@ -98,7 +98,13 @@ lspconfig.pylsp.setup({
 lspconfig.pyre.setup({})
 lspconfig.lua_ls.setup({})
 lspconfig.rust_analyzer.setup({})
-lspconfig.clangd.setup({})
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.offsetEncoding = { "utf-16" }
+require("lspconfig").clangd.setup({
+  capabilities = capabilities,
+})
+
 vim.diagnostic.config({ virtual_text = false })
 vim.o.updatetime = 250
 vim.cmd([[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]])
