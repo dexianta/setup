@@ -16,3 +16,5 @@ require("telescope-cfg")
 
 require("misc")
 require("colortheme")
+tags = require("tags")
+vim.cmd('command! -nargs=* AddTags lua tags.add_tags({<f-args>})')
