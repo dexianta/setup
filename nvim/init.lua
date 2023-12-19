@@ -13,6 +13,7 @@ require("telescope").setup({
   },
 })
 require("telescope-cfg")
+require("focus-cfg")
 
 require("misc")
 require("colortheme")

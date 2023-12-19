@@ -117,4 +117,7 @@ require("packer").startup(function()
 
   -- run code
   use({ "michaelb/sniprun", run = "bash ./install.sh" })
+
+  -- focus
+  use 'nvim-focus/focus.nvim'
 end)
