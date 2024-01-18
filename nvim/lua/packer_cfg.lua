@@ -120,4 +120,7 @@ require("packer").startup(function()
 
   -- focus
   use 'nvim-focus/focus.nvim'
+
+  -- git
+  use 'tpope/vim-fugitive'
 end)
