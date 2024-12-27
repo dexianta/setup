@@ -1,4 +1,5 @@
 require("global")
+--require("lazy_cfg")
 require("packer_cfg")
 require("lsp")
 require("dap-cfg")
