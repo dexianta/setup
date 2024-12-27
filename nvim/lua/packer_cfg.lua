@@ -63,10 +63,7 @@ require("packer").startup(function()
   -- nvim tree
   use({
     "nvim-tree/nvim-tree.lua",
-    requires = {
-      "nvim-tree/nvim-web-devicons", -- optional, for file icons
-    },
-    tag = "nightly",                 -- optional, updated every week. (see issue #1193)
+    tag = "v1.9.0", -- optional, updated every week. (see issue #1193)
   })
 
   -- formatter / linter (should be after tree sitter)
@@ -125,4 +122,5 @@ require("packer").startup(function()
 
   -- git
   use 'tpope/vim-fugitive'
+  use { "nvim-neotest/nvim-nio" }
 end)
