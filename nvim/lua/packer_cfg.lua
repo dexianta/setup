@@ -2,7 +2,7 @@ require("packer").startup(function()
   use("wbthomason/packer.nvim")
   use("itchyny/lightline.vim")
   use("nvim-telescope/telescope-fzf-native.nvim")
-
+  use("j-hui/fidget.nvim")
   use("BurntSushi/ripgrep")
   use({
     "nvim-telescope/telescope.nvim",
@@ -86,6 +86,7 @@ require("packer").startup(function()
       "mfussenegger/nvim-dap",
     }
   })
+  use { "nvim-neotest/nvim-nio" }
   use("leoluz/nvim-dap-go")
   use("rcarriga/nvim-dap-ui")
   use("theHamsta/nvim-dap-virtual-text")
@@ -114,6 +115,7 @@ require("packer").startup(function()
   use({ "folke/tokyonight.nvim" })
   use({ "bluz71/vim-moonfly-colors", branch = "cterm-compat" })
   use({ "rose-pine/neovim", as = "rose-pine" })
+  use({ "rebelot/kanagawa.nvim" })
 
   -- run code
   use({ "michaelb/sniprun", run = "bash ./install.sh" })
