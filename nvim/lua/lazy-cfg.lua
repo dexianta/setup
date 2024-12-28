@@ -38,14 +38,15 @@ require("lazy").setup({
 
   -- Telescope and dependencies
   {
-    'nvim-telescope/telescope-fzf-native.nvim',
-    build =
-    'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release'
+    'nvim-telescope/telescope-fzf-native.nvim', build = 'make'
   },
   {
     "nvim-telescope/telescope.nvim",
     version = "0.1.7",
-    dependencies = { "nvim-lua/plenary.nvim" },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+    },
     config = function()
       require("telescope").setup({
         defaults = {
@@ -55,7 +56,7 @@ require("lazy").setup({
           find_files = { hidden = true },
         },
       })
-      -- require("telescope").load_extension("fzf")
+      require("telescope").load_extension("fzf")
     end,
   },
   "nvim-telescope/telescope-file-browser.nvim",
