@@ -31,20 +31,21 @@ require("lazy").setup({
 
   -- Statusline
   {
-    'nvim-lualine/lualine.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons' }
+    "nvim-lualine/lualine.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
   },
 
   -- Telescope and dependencies
   {
-    'nvim-telescope/telescope-fzf-native.nvim', build = 'make'
+    "nvim-telescope/telescope-fzf-native.nvim",
+    build = "make",
   },
   {
     "nvim-telescope/telescope.nvim",
     version = "0.1.7",
     dependencies = {
       "nvim-lua/plenary.nvim",
-      { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+      { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
     },
     config = function()
       require("telescope").setup({
@@ -165,7 +166,7 @@ require("lazy").setup({
     dependencies = { "nvim-lua/plenary.nvim" },
   },
 
-  -- Debugging
+  -- Debugging DAP
   "mfussenegger/nvim-dap",
   {
     "jay-babu/mason-nvim-dap.nvim",
@@ -174,8 +175,9 @@ require("lazy").setup({
       "mfussenegger/nvim-dap",
     },
   },
+  "mfussenegger/nvim-dap-python",
   "leoluz/nvim-dap-go",
-  "rcarriga/nvim-dap-ui",
+  { "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } },
   "theHamsta/nvim-dap-virtual-text",
   "nvim-telescope/telescope-dap.nvim",
 
@@ -205,7 +207,7 @@ require("lazy").setup({
   },
 
   -- Color schemes
-  { "rose-pine/neovim", name = "rose-pine" },
+  { "rose-pine/neovim",     name = "rose-pine" },
 
   -- Code runner
   {
