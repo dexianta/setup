@@ -9,8 +9,10 @@ require("nvim-treesitter.configs").setup({
     "bash",
     "html",
     "python",
+    "markdown",
   },
   auto_install = true,
+  sync_install = false,
   highlight = {
     enable = true,
   },
@@ -96,9 +98,33 @@ lspconfig.gopls.setup({
   },
 })
 lspconfig.pylsp.setup({
+  cmd = { "/Users/dexian/miniconda3/bin/pylsp" },
+  settings = {
+    pylsp = {
+      plugins = {
+        pycodestyle = { enabled = true },
+        pydocstyle = { enabled = false },
+        pylint = {
+          enabled = true,
+          args = { "--disable=C0116,C0114" },
+        },
+      },
+    },
+  },
   on_attach = function(client, bufnr)
     navbuddy.attach(client, bufnr)
   end,
+})
+
+lspconfig.pyright.setup({
+  on_attach = function(client, bufnr)
+    navbuddy.attach(client, bufnr)
+  end,
+  settings = {
+    python = {
+      pythonPath = "/Users/dexian/miniconda3/bin/python",
+    },
+  },
 })
 lspconfig.pyre.setup({})
 lspconfig.lua_ls.setup({})
