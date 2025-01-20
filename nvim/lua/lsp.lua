@@ -102,7 +102,7 @@ lspconfig.pylsp.setup({
   settings = {
     pylsp = {
       plugins = {
-        pycodestyle = { enabled = true },
+        pycodestyle = { enabled = false },
         pydocstyle = { enabled = false },
         pylint = {
           enabled = true,
@@ -116,17 +116,6 @@ lspconfig.pylsp.setup({
   end,
 })
 
-lspconfig.pyright.setup({
-  on_attach = function(client, bufnr)
-    navbuddy.attach(client, bufnr)
-  end,
-  settings = {
-    python = {
-      pythonPath = "/Users/dexian/miniconda3/bin/python",
-    },
-  },
-})
-lspconfig.pyre.setup({})
 lspconfig.lua_ls.setup({})
 lspconfig.rust_analyzer.setup({})
 

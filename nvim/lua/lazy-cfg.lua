@@ -102,10 +102,6 @@ require("lazy").setup({
         buf_map(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
         buf_map(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
       end
-
-      require("lspconfig").pyright.setup({
-        on_attach = on_attach,
-      })
     end,
   },
 
