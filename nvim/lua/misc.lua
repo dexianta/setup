@@ -3,7 +3,6 @@
 ---------------
 keymap("n", "<C-l>r", ":LspStop<CR> :LspStart<CR>")
 
-
 ---------------
 -- trailing white space
 ---------------

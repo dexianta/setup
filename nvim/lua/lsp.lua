@@ -36,6 +36,14 @@ keymap("n", "<space>rn", ":lua vim.lsp.buf.rename()<CR>")
 keymap("n", "<space>ca", ":lua vim.lsp.buf.code_action()<CR>")
 keymap("n", "<space>td", ":lua vim.lsp.buf.type_definition()<CR>")
 vim.keymap.set("n", "<space>fm", function()
+  local filetype = vim.bo.filetype
+
+  -- Skip formatting for Python files
+  if filetype == "python" then
+    vim.notify("Skipping formatting for Python files", vim.log.levels.INFO)
+    return
+  end
+
   vim.lsp.buf.format({ async = true })
 end, { noremap = true })
 keymap("n", "gR", "<cmd>TroubleToggle lsp_references<CR>")
