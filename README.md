@@ -11,7 +11,7 @@ personal setup for shell/nvim etc.
 `ln -s ~/setup/nvim ~/.config/nvim`
 `ln -s ~/setup/zshrc ~/.zshrc`
 
-##misc:
+## misc:
 1. lazy.nvim has issue with using fzf native with telescope. solution 
   `cd ~/.local/share/nvim/lazy/telescope-fzf-native.nvim
   cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
