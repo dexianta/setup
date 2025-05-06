@@ -148,7 +148,8 @@ require("lazy").setup({
 
   -- Formatter / Linter
   {
-    "jose-elias-alvarez/null-ls.nvim",
+    -- "jose-elias-alvarez/null-ls.nvim",
+    "nvimtools/none-ls.nvim",
     config = function()
       local null_ls = require("null-ls")
       null_ls.setup({
