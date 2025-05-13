@@ -126,6 +126,15 @@ lspconfig.pylsp.setup({
 
 lspconfig.lua_ls.setup({})
 lspconfig.rust_analyzer.setup({})
+-- JavaScript / TypeScript
+lspconfig.tsserver.setup({
+  on_attach = function(client, bufnr)
+    navbuddy.attach(client, bufnr)
+  end,
+  cmd = { "typescript-language-server", "--stdio" },
+  filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+  root_dir = lspconfig.util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git"),
+})
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.offsetEncoding = { "utf-16" }
