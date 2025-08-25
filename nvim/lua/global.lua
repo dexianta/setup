@@ -3,6 +3,7 @@ vim.g.loaded_netrwPlugin = 1
 
 local nvcmd = vim.api.nvim_command
 nvcmd("set number")
+nvcmd("set list listchars=space:·")
 nvcmd("set relativenumber")
 nvcmd("set t_Co=256")
 nvcmd("set autowriteall")

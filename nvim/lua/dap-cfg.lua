@@ -97,12 +97,12 @@ dap.configurations.c = dap.configurations.cpp
 dap.configurations.rust = dap.configurations.cpp
 
 --- key binding
-keymap("n", "<Leader>cb", ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>")
-keymap("n", "<Leader>b", ":lua require'dap'.toggle_breakpoint()<CR>")
-keymap("n", "<Leader>u", ":lua require'dapui'.toggle()<CR>")
-keymap("n", "<Leader>tp", ":lua require('dap-python').test_method()<CR>")
-keymap("n", "<Leader>tg", ":lua require('dap-go').debug_test()<CR>")
-keymap("n", "<Leader>c", ":lua require'dap'.continue()<CR>")
-keymap("n", "<Leader>l", ":lua require'dap'.run_last()<CR>")
-keymap("n", "<Leader>n", ":lua require'dap'.step_over()<CR>")
-keymap("n", "<Leader>i", ":lua require'dap'.step_into()<CR>")
+keymap("n", "<leader>cb", ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>")
+keymap("n", "<leader>b", ":lua require'dap'.toggle_breakpoint()<CR>")
+keymap("n", "<leader>u", ":lua require'dapui'.toggle()<CR>")
+keymap("n", "<leader>tp", ":lua require('dap-python').test_method()<CR>")
+keymap("n", "<leader>tg", ":lua require('dap-go').debug_test()<CR>")
+keymap("n", "<leader>c", ":lua require'dap'.continue()<CR>")
+keymap("n", "<leader>l", ":lua require'dap'.run_last()<CR>")
+keymap("n", "<leader>n", ":lua require'dap'.step_over()<CR>")
+keymap("n", "<leader>i", ":lua require'dap'.step_into()<CR>")

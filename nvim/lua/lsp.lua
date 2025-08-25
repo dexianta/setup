@@ -46,7 +46,7 @@ vim.keymap.set("n", "<space>fm", function()
 
   vim.lsp.buf.format({ async = true })
 end, { noremap = true })
-keymap("n", "gR", "<cmd>TroubleToggle lsp_references<CR>")
+
 
 -- neodev
 -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
@@ -96,13 +96,12 @@ lspconfig.gopls.setup({
   cmd = { "gopls" },
   settings = {
     gopls = {
-      experimentalPostfixCompletions = true,
       analyses = {
         unusedparams = true,
-        shadow = true,
+        unusedfunc = true,
       },
-      staticcheck = true,
     },
+    staticcheck = true,
   },
 })
 lspconfig.pylsp.setup({
@@ -127,7 +126,7 @@ lspconfig.pylsp.setup({
 lspconfig.lua_ls.setup({})
 lspconfig.rust_analyzer.setup({})
 -- JavaScript / TypeScript
-lspconfig.tsserver.setup({
+lspconfig.ts_ls.setup({
   on_attach = function(client, bufnr)
     navbuddy.attach(client, bufnr)
   end,

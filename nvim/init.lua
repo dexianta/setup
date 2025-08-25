@@ -6,13 +6,12 @@ require("cmp-cfg")
 require("nvtree")
 require("spellcheck")
 require("gitsign-cfg")
-require("toggleterm-cfg")
-require("telescope").setup({
-  pickers = {
-    current_buffer_fuzzy_find = { sorting_strategy = "ascending" },
-  },
-})
-require("telescope-cfg")
+--require("telescope").setup({
+--  pickers = {
+--    current_buffer_fuzzy_find = { sorting_strategy = "ascending" },
+--  },
+--})
+--require("telescope-cfg")
 
 require("misc")
 require("colortheme")
