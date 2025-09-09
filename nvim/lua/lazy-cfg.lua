@@ -155,23 +155,6 @@ require("lazy").setup({
     lazy = false,
   },
 
-  -- Formatter / Linter
-  {
-    -- "jose-elias-alvarez/null-ls.nvim",
-    "nvimtools/none-ls.nvim",
-    config = function()
-      local null_ls = require("null-ls")
-      null_ls.setup({
-        sources = {
-          null_ls.builtins.formatting.prettier,
-          null_ls.builtins.diagnostics.eslint,
-          null_ls.builtins.formatting.stylua,
-        },
-      })
-    end,
-    dependencies = { "nvim-lua/plenary.nvim" },
-  },
-
   -- Debugging DAP
   "mfussenegger/nvim-dap",
   {
@@ -273,7 +256,35 @@ require("lazy").setup({
         enabled = true,
         timeout = 3000,
       },
-      picker = { enabled = true },
+      picker = {
+        enabled = true,
+        grep = {
+          cmd = "rg",
+          args = {
+            "--hidden",                -- search hidden files too
+            "--glob", "!node_modules", -- exclude node_modules
+            "--glob", "!.git",         -- exclude .git
+            "--glob", "!dist",         -- exclude dist
+            "--glob", "!build",        -- exclude build
+            "--color=never",
+            "--line-number",
+            "--column",
+            "--no-heading"
+          },
+        },
+        smart = {
+          cmd = "fd",
+          args = {
+            "--type", "f",
+            "--hidden",
+            "--exclude", "node_modules",
+            "--exclude", ".git",
+            "--exclude", "dist",
+            "--exclude", "build"
+          },
+        },
+
+      },
       quickfile = { enabled = true },
       scope = { enabled = true },
       -- scroll = { enabled = true },

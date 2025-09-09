@@ -65,18 +65,6 @@ require("mason-lspconfig").setup({
   },
 })
 
-local null_ls = require("null-ls")
-null_ls.setup({
-  debug = true,
-  sources = {
-    null_ls.builtins.formatting.stylua,
-    null_ls.builtins.completion.spell,
-    -- null_ls.builtins.code_actions.gitsigns,
-    null_ls.builtins.code_actions.shellcheck,
-    null_ls.builtins.diagnostics.golangci_lint,
-  },
-})
-
 -- Set up lspconfig.
 local navbuddy = require("nvim-navbuddy")
 navbuddy.setup({
@@ -176,4 +164,9 @@ require("illuminate").configure({
   under_cursor = true,
   -- min_count_to_highlight: minimum number of matches required to perform highlighting
   min_count_to_highlight = 1,
+})
+
+require("snacks").setup({
+  picker = {
+  },
 })
