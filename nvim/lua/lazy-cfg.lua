@@ -552,7 +552,7 @@ vim.g.mapleader = "\\"
 				desc = "References",
 			},
 			{
-				"gI",
+				"gi",
 				function()
 					Snacks.picker.lsp_implementations()
 				end,
