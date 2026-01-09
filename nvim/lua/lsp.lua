@@ -1,13 +1,18 @@
 require("nvim-treesitter.configs").setup({
   ensure_installed = {
+    "lua",
+    "json",
+    "yaml",
     "sql",
     "vimdoc",
     "javascript",
     "typescript",
+    "tsx",
+    "css",
+    "html",
     "go",
     "c",
     "bash",
-    "html",
     "python",
     "markdown",
   },
@@ -22,10 +27,7 @@ require("nvim-treesitter.configs").setup({
 })
 
 keymap("t", "<Esc>", "<C-\\><C-n>", { noremap = true })
-keymap("n", "gd", ":lua vim.lsp.buf.definition()<CR>")
-keymap("n", "gD", ":lua vim.lsp.buf.declaration()<CR>")
-keymap("n", "gi", ":lua vim.lsp.buf.implementation()<CR>")
-keymap("n", "gr", ":lua vim.lsp.buf.references()<CR>")
+-- Navigation is handled by Snacks pickers; keep core LSP maps minimal here
 keymap("n", "K", ":lua vim.lsp.buf.hover()<CR>")
 keymap("n", "<C-k>", ":lua vim.lsp.buf.signature_help()<CR>")
 vim.keymap.set("n", "<space>wl", function()
@@ -47,7 +49,6 @@ vim.keymap.set("n", "<space>fm", function()
   vim.lsp.buf.format({ async = true })
 end, { noremap = true })
 
-
 -- neodev
 -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
 require("neodev").setup({
@@ -59,11 +60,15 @@ require("mason").setup()
 require("mason-lspconfig").setup({
   ensure_installed = {
     "lua_ls",
+    "jdtls",
     "gopls",
     "pylsp",
     "clangd",
   },
 })
+
+-- Shared LSP capabilities for completion/snippets
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 -- Set up lspconfig.
 local navbuddy = require("nvim-navbuddy")
@@ -81,6 +86,7 @@ lspconfig.gopls.setup({
   on_attach = function(client, bufnr)
     navbuddy.attach(client, bufnr)
   end,
+  capabilities = capabilities,
   cmd = { "gopls" },
   settings = {
     gopls = {
@@ -88,12 +94,14 @@ lspconfig.gopls.setup({
         unusedparams = true,
         unusedfunc = true,
       },
+      directoryFilters = { "-node_modules", "-.git" },
     },
     staticcheck = true,
   },
 })
 lspconfig.pylsp.setup({
   cmd = { "/Users/dexian/miniconda3/bin/pylsp" },
+  capabilities = capabilities,
   settings = {
     pylsp = {
       plugins = {
@@ -111,27 +119,56 @@ lspconfig.pylsp.setup({
   end,
 })
 
-lspconfig.lua_ls.setup({})
-lspconfig.rust_analyzer.setup({})
+lspconfig.lua_ls.setup({ capabilities = capabilities })
+lspconfig.rust_analyzer.setup({ capabilities = capabilities })
 -- JavaScript / TypeScript
-lspconfig.ts_ls.setup({
+lspconfig.tsserver.setup({
   on_attach = function(client, bufnr)
     navbuddy.attach(client, bufnr)
   end,
+  capabilities = capabilities,
+  init_options = {
+    preferences = {
+      disableSuggestions = false,
+    },
+  },
+  settings = {
+    typescript = {
+      format = { enable = false },
+      preferences = {
+        quotePreference = "single",
+        importModuleSpecifier = "relative",
+      },
+    },
+    javascript = {
+      format = { enable = false },
+      preferences = {
+        quotePreference = "single",
+        importModuleSpecifier = "relative",
+      },
+    },
+  },
   cmd = { "typescript-language-server", "--stdio" },
   filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
   root_dir = lspconfig.util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git"),
 })
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.offsetEncoding = { "utf-16" }
+local clangd_cap = vim.lsp.protocol.make_client_capabilities()
+clangd_cap.offsetEncoding = { "utf-16" }
 require("lspconfig").clangd.setup({
-  capabilities = capabilities,
+  cmd = { "clangd", "--offset-encoding=utf-16", "--background-index" },
+  capabilities = vim.tbl_deep_extend("force", capabilities, clangd_cap),
 })
 
-vim.diagnostic.config({ virtual_text = false })
+vim.diagnostic.config({ virtual_text = false, float = { border = "single" } })
 vim.o.updatetime = 250
-vim.cmd([[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]])
+local diag_float = vim.api.nvim_create_augroup("LspDiagnosticsFloat", { clear = true })
+vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+  group = diag_float,
+  callback = function()
+    vim.diagnostic.open_float(nil, { focus = false })
+  end,
+})
 
 require("sniprun").setup({
   interpreter_options = {
@@ -167,6 +204,5 @@ require("illuminate").configure({
 })
 
 require("snacks").setup({
-  picker = {
-  },
+  picker = {},
 })
