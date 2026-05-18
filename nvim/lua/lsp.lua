@@ -15,6 +15,7 @@ require("nvim-treesitter.configs").setup({
     "bash",
     "python",
     "markdown",
+    "markdown_inline",
   },
   auto_install = true,
   sync_install = false,
@@ -23,6 +24,26 @@ require("nvim-treesitter.configs").setup({
   },
   indent = {
     enable = true,
+  },
+  textobjects = {
+    select = {
+      enable = true,
+      lookahead = true,
+      keymaps = {
+        ["ib"] = { query = "@code_cell.inner", desc = "inside code cell" },
+        ["ab"] = { query = "@code_cell.outer", desc = "around code cell" },
+      },
+    },
+    move = {
+      enable = true,
+      set_jumps = true,
+      goto_next_start = {
+        ["]b"] = { query = "@code_cell.inner", desc = "next code cell" },
+      },
+      goto_previous_start = {
+        ["[b"] = { query = "@code_cell.inner", desc = "previous code cell" },
+      },
+    },
   },
 })
 
@@ -81,11 +102,13 @@ navbuddy.setup({
   },
 })
 
+local function attach_navbuddy(client, bufnr)
+  navbuddy.attach(client, bufnr)
+end
+
 local lspconfig = require("lspconfig")
 lspconfig.gopls.setup({
-  on_attach = function(client, bufnr)
-    navbuddy.attach(client, bufnr)
-  end,
+  on_attach = attach_navbuddy,
   capabilities = capabilities,
   cmd = { "gopls" },
   settings = {
@@ -114,18 +137,14 @@ lspconfig.pylsp.setup({
       },
     },
   },
-  on_attach = function(client, bufnr)
-    navbuddy.attach(client, bufnr)
-  end,
+  on_attach = attach_navbuddy,
 })
 
 lspconfig.lua_ls.setup({ capabilities = capabilities })
 lspconfig.rust_analyzer.setup({ capabilities = capabilities })
 -- JavaScript / TypeScript
 lspconfig.tsserver.setup({
-  on_attach = function(client, bufnr)
-    navbuddy.attach(client, bufnr)
-  end,
+  on_attach = attach_navbuddy,
   capabilities = capabilities,
   init_options = {
     preferences = {
@@ -201,8 +220,4 @@ require("illuminate").configure({
   under_cursor = true,
   -- min_count_to_highlight: minimum number of matches required to perform highlighting
   min_count_to_highlight = 1,
-})
-
-require("snacks").setup({
-  picker = {},
 })

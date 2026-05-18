@@ -1,6 +1,15 @@
 local M = {}
 
+local function escape_pattern(value)
+  return value:gsub("([^%w])", "%%%1")
+end
+
 function M.add_tags(tag_key)
+  if tag_key == nil or tag_key == "" then
+    vim.notify("Usage: AddTags <tag>", vim.log.levels.WARN)
+    return
+  end
+
   local line_number = vim.fn.line(".")             -- Get the current line number
   local line_content = vim.fn.getline(line_number) -- Get the content of the current line
 
@@ -12,7 +21,7 @@ function M.add_tags(tag_key)
   end
 
   -- Step 2: Build list to store all the options inside ``, split by space
-  local tags_str = line_content:match("`([^`]+)`")
+  local tags_str = line_content:match("`([^`]*)`")
   local tags_list = {}
   if tags_str then
     for tag in tags_str:gmatch("%S+") do
@@ -28,7 +37,7 @@ function M.add_tags(tag_key)
   local new_tag = string.format('%s:"%s"', tag_key, snake_case_name)
   local found = false
   for i, tag in ipairs(tags_list) do
-    if tag:match("^%s*:" .. tag_key) then
+    if tag:match("^" .. escape_pattern(tag_key) .. ":") then
       tags_list[i] = new_tag
       found = true
       break
@@ -40,7 +49,13 @@ function M.add_tags(tag_key)
 
   -- Step 5: Take the value from step 4, replace the content within ``
   local new_tags_str = table.concat(tags_list, " ")
-  local new_line_content = line_content:gsub("`([^`]+)`", "`" .. new_tags_str .. "`")
+  local new_line_content
+  if tags_str then
+    new_line_content = line_content:gsub("`([^`]*)`", "`" .. new_tags_str .. "`", 1)
+  else
+    new_line_content = line_content .. " `" .. new_tags_str .. "`"
+  end
+
   vim.fn.setline(line_number, new_line_content)
 end
 

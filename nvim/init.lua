@@ -6,14 +6,10 @@ require("cmp-cfg")
 require("nvtree")
 require("spellcheck")
 require("gitsign-cfg")
---require("telescope").setup({
---  pickers = {
---    current_buffer_fuzzy_find = { sorting_strategy = "ascending" },
---  },
---})
---require("telescope-cfg")
 
 require("misc")
+require("notebook")
 require("colortheme")
-tags = require("tags")
-vim.cmd('command! -nargs=* AddTags lua tags.add_tags({<f-args>})')
+vim.api.nvim_create_user_command("AddTags", function(opts)
+  require("tags").add_tags(opts.args)
+end, { nargs = 1 })

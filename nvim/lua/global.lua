@@ -1,6 +1,11 @@
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
+local conda_python = vim.fn.expand("~/miniconda3/bin/python")
+if vim.fn.executable(conda_python) == 1 then
+  vim.g.python3_host_prog = conda_python
+end
+
 local nvcmd = vim.api.nvim_command
 nvcmd("set number")
 nvcmd("set listchars=tab:>·,lead:·,trail:·,space:·")
@@ -31,7 +36,7 @@ nvcmd("filetype plugin on")
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 
-function keymap(mode, key, map)
-  local opts = { noremap = true }
+function keymap(mode, key, map, opts)
+  opts = vim.tbl_extend("force", { noremap = true }, opts or {})
   vim.api.nvim_set_keymap(mode, key, map, opts)
 end
