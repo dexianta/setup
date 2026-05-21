@@ -64,6 +64,7 @@ require("lazy").setup({
   -- Treesitter and related plugins
   {
     "nvim-treesitter/nvim-treesitter",
+    branch = "main",
     build = ":TSUpdate",
   },
   "nvim-treesitter/nvim-treesitter-textobjects",
@@ -593,21 +594,21 @@ require("lazy").setup({
       {
         "gd",
         function()
-          Snacks.picker.lsp_definitions()
+          vim.lsp.buf.definition({ reuse_win = true })
         end,
         desc = "Goto Definition",
       },
       {
         "gD",
         function()
-          Snacks.picker.lsp_declarations()
+          vim.lsp.buf.declaration({ reuse_win = true })
         end,
         desc = "Goto Declaration",
       },
       {
         "gr",
         function()
-          Snacks.picker.lsp_references()
+          vim.lsp.buf.references(nil, { loclist = true })
         end,
         nowait = true,
         desc = "References",
@@ -615,16 +616,51 @@ require("lazy").setup({
       {
         "gi",
         function()
-          Snacks.picker.lsp_implementations()
+          vim.lsp.buf.implementation({ reuse_win = true })
         end,
         desc = "Goto Implementation",
       },
       {
         "gy",
         function()
-          Snacks.picker.lsp_type_definitions()
+          vim.lsp.buf.type_definition({ reuse_win = true })
         end,
         desc = "Goto T[y]pe Definition",
+      },
+      {
+        "<leader>gd",
+        function()
+          Snacks.picker.lsp_definitions()
+        end,
+        desc = "Pick LSP Definitions",
+      },
+      {
+        "<leader>gD",
+        function()
+          Snacks.picker.lsp_declarations()
+        end,
+        desc = "Pick LSP Declarations",
+      },
+      {
+        "<leader>gr",
+        function()
+          Snacks.picker.lsp_references()
+        end,
+        desc = "Pick LSP References",
+      },
+      {
+        "<leader>gi",
+        function()
+          Snacks.picker.lsp_implementations()
+        end,
+        desc = "Pick LSP Implementations",
+      },
+      {
+        "<leader>gy",
+        function()
+          Snacks.picker.lsp_type_definitions()
+        end,
+        desc = "Pick LSP Type Definitions",
       },
       {
         "<leader>ss",

@@ -1,51 +1,74 @@
-require("nvim-treesitter.configs").setup({
-  ensure_installed = {
-    "lua",
-    "json",
-    "yaml",
-    "sql",
-    "vimdoc",
-    "javascript",
-    "typescript",
-    "tsx",
-    "css",
-    "html",
-    "go",
-    "c",
-    "bash",
-    "python",
-    "markdown",
-    "markdown_inline",
+local treesitter_languages = {
+  "lua",
+  "json",
+  "yaml",
+  "sql",
+  "vimdoc",
+  "javascript",
+  "typescript",
+  "tsx",
+  "css",
+  "html",
+  "go",
+  "c",
+  "bash",
+  "python",
+  "markdown",
+  "markdown_inline",
+}
+
+local treesitter_filetypes = {
+  "lua",
+  "json",
+  "yaml",
+  "sql",
+  "vimdoc",
+  "javascript",
+  "javascriptreact",
+  "typescript",
+  "typescriptreact",
+  "css",
+  "html",
+  "go",
+  "gomod",
+  "c",
+  "bash",
+  "sh",
+  "python",
+  "markdown",
+}
+
+require("nvim-treesitter").setup({
+  install_dir = vim.fn.stdpath("data") .. "/site",
+})
+require("nvim-treesitter").install(treesitter_languages)
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = treesitter_filetypes,
+  callback = function()
+    pcall(vim.treesitter.start)
+    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+  end,
+})
+
+require("nvim-treesitter-textobjects").setup({
+  select = {
+    lookahead = true,
   },
-  auto_install = true,
-  sync_install = false,
-  highlight = {
-    enable = true,
-  },
-  indent = {
-    enable = true,
-  },
-  textobjects = {
-    select = {
-      enable = true,
-      lookahead = true,
-      keymaps = {
-        ["ib"] = { query = "@code_cell.inner", desc = "inside code cell" },
-        ["ab"] = { query = "@code_cell.outer", desc = "around code cell" },
-      },
-    },
-    move = {
-      enable = true,
-      set_jumps = true,
-      goto_next_start = {
-        ["]b"] = { query = "@code_cell.inner", desc = "next code cell" },
-      },
-      goto_previous_start = {
-        ["[b"] = { query = "@code_cell.inner", desc = "previous code cell" },
-      },
-    },
+  move = {
+    set_jumps = true,
   },
 })
+
+local textobject_select = require("nvim-treesitter-textobjects.select")
+vim.keymap.set({ "x", "o" }, "ib", function()
+  textobject_select.select_textobject("@code_cell.inner", "textobjects")
+end, { desc = "inside code cell" })
+vim.keymap.set({ "x", "o" }, "ab", function()
+  textobject_select.select_textobject("@code_cell.outer", "textobjects")
+end, { desc = "around code cell" })
+
+vim.lsp.log.set_level("ERROR")
 
 keymap("t", "<Esc>", "<C-\\><C-n>", { noremap = true })
 -- Navigation is handled by Snacks pickers; keep core LSP maps minimal here
@@ -71,7 +94,7 @@ vim.keymap.set("n", "<space>fm", function()
 end, { noremap = true })
 
 -- neodev
--- IMPORTANT: make sure to setup neodev BEFORE lspconfig
+-- IMPORTANT: make sure to setup neodev BEFORE LSP config
 require("neodev").setup({
   -- add any options here, or leave empty to use the default settings
 })
@@ -86,12 +109,12 @@ require("mason-lspconfig").setup({
     "pylsp",
     "clangd",
   },
+  automatic_enable = false,
 })
 
 -- Shared LSP capabilities for completion/snippets
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
--- Set up lspconfig.
 local navbuddy = require("nvim-navbuddy")
 navbuddy.setup({
   window = {
@@ -106,10 +129,12 @@ local function attach_navbuddy(client, bufnr)
   navbuddy.attach(client, bufnr)
 end
 
-local lspconfig = require("lspconfig")
-lspconfig.gopls.setup({
-  on_attach = attach_navbuddy,
+vim.lsp.config("*", {
   capabilities = capabilities,
+})
+
+vim.lsp.config("gopls", {
+  on_attach = attach_navbuddy,
   cmd = { "gopls" },
   settings = {
     gopls = {
@@ -122,9 +147,9 @@ lspconfig.gopls.setup({
     staticcheck = true,
   },
 })
-lspconfig.pylsp.setup({
+
+vim.lsp.config("pylsp", {
   cmd = { "/Users/dexian/miniconda3/bin/pylsp" },
-  capabilities = capabilities,
   settings = {
     pylsp = {
       plugins = {
@@ -140,12 +165,9 @@ lspconfig.pylsp.setup({
   on_attach = attach_navbuddy,
 })
 
-lspconfig.lua_ls.setup({ capabilities = capabilities })
-lspconfig.rust_analyzer.setup({ capabilities = capabilities })
 -- JavaScript / TypeScript
-lspconfig.tsserver.setup({
+vim.lsp.config("ts_ls", {
   on_attach = attach_navbuddy,
-  capabilities = capabilities,
   init_options = {
     preferences = {
       disableSuggestions = false,
@@ -169,15 +191,17 @@ lspconfig.tsserver.setup({
   },
   cmd = { "typescript-language-server", "--stdio" },
   filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
-  root_dir = lspconfig.util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git"),
 })
 
-local clangd_cap = vim.lsp.protocol.make_client_capabilities()
-clangd_cap.offsetEncoding = { "utf-16" }
-require("lspconfig").clangd.setup({
-  cmd = { "clangd", "--offset-encoding=utf-16", "--background-index" },
-  capabilities = vim.tbl_deep_extend("force", capabilities, clangd_cap),
+local clangd_capabilities = vim.tbl_deep_extend("force", {}, capabilities, {
+  offsetEncoding = { "utf-16" },
 })
+vim.lsp.config("clangd", {
+  cmd = { "clangd", "--offset-encoding=utf-16", "--background-index" },
+  capabilities = clangd_capabilities,
+})
+
+vim.lsp.enable({ "gopls", "pylsp", "lua_ls", "rust_analyzer", "ts_ls", "clangd", "jdtls" })
 
 vim.diagnostic.config({ virtual_text = false, float = { border = "single" } })
 vim.o.updatetime = 250
@@ -201,8 +225,6 @@ require("sniprun").setup({
 require("illuminate").configure({
   -- providers: provider used to get references in the buffer, ordered by priority
   providers = {
-    "lsp",
-    "treesitter",
     "regex",
   },
   -- delay: delay in milliseconds

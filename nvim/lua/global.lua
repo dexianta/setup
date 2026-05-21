@@ -34,7 +34,7 @@ nvcmd("set nocompatible")
 nvcmd("filetype plugin on")
 
 vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 
 function keymap(mode, key, map, opts)
   opts = vim.tbl_extend("force", { noremap = true }, opts or {})
