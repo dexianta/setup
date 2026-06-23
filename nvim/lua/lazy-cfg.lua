@@ -41,7 +41,12 @@ require("lazy").setup({
             return ok and head ~= "" and ("git:" .. head) or ""
           end,
         },
-        lualine_c = { "filename" },
+        lualine_c = {
+          {
+            "filename",
+            path = 1,
+          },
+        },
         lualine_x = {
           "encoding",
           function()
