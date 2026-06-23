@@ -10,6 +10,24 @@ require("nvim-dap-virtual-text").setup({
 local dap, dapui = require("dap"), require("dapui")
 
 dapui.setup({
+  icons = {
+    expanded = "-",
+    collapsed = "+",
+    current_frame = ">",
+  },
+  controls = {
+    icons = {
+      pause = "||",
+      play = ">",
+      step_into = "v",
+      step_over = ">",
+      step_out = "^",
+      step_back = "<",
+      run_last = ">>",
+      terminate = "x",
+      disconnect = "!",
+    },
+  },
   layouts = {
     {
       elements = {
@@ -76,7 +94,7 @@ dap.configurations.cpp = {
     stopOnEntry = false,
     args = {},
 
-    -- 💀
+    -- Linux ptrace note:
     -- if you change `runInTerminal` to true, you might need to change the yama/ptrace_scope setting:
     --
     --    echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope

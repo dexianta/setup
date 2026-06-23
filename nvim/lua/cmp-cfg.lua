@@ -21,6 +21,33 @@ local function custom_comparator(entry1, entry2)
 end
 
 local lspkind = require("lspkind")
+local ascii_lspkind_symbols = {
+  Text = "Txt",
+  Method = "Mth",
+  Function = "Fn",
+  Constructor = "New",
+  Field = "Fld",
+  Variable = "Var",
+  Class = "Cls",
+  Interface = "Ifc",
+  Module = "Mod",
+  Property = "Prp",
+  Unit = "Unt",
+  Value = "Val",
+  Enum = "Enm",
+  Keyword = "Key",
+  Snippet = "Snp",
+  Color = "Clr",
+  File = "Fil",
+  Reference = "Ref",
+  Folder = "Dir",
+  EnumMember = "Mem",
+  Constant = "Cst",
+  Struct = "Stc",
+  Event = "Evt",
+  Operator = "Op",
+  TypeParameter = "Typ",
+}
 require("luasnip.loaders.from_vscode").lazy_load()
 local luasnip = require("luasnip")
 local cmp = require("cmp")
@@ -65,7 +92,7 @@ cmp.setup({
     { name = "buffer" },
   }),
   sorting = {
-    kind_labels = lspkind.presets.default,
+    kind_labels = ascii_lspkind_symbols,
     priority_weight = 1,
     comparators = {
       custom_comparator,
@@ -76,7 +103,11 @@ cmp.setup({
     },
   },
   formatting = {
-    format = lspkind.cmp_format({ with_text = true, maxwidth = 50 }),
+    format = lspkind.cmp_format({
+      mode = "symbol_text",
+      maxwidth = 50,
+      symbol_map = ascii_lspkind_symbols,
+    }),
   },
   experimental = {
     ghost_text = true,

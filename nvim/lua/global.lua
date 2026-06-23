@@ -8,7 +8,7 @@ end
 
 local nvcmd = vim.api.nvim_command
 nvcmd("set number")
-nvcmd("set listchars=tab:>·,lead:·,trail:·,space:·")
+nvcmd("set listchars=tab:>-,lead:.,trail:.,space:.")
 nvcmd("set list")
 nvcmd("set relativenumber")
 nvcmd("set t_Co=256")

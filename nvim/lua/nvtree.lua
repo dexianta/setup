@@ -12,11 +12,25 @@ require("nvim-tree").setup({
   renderer = {
     group_empty = true,
     icons = {
+      web_devicons = {
+        file = { enable = false },
+        folder = { enable = false },
+      },
       show = {
         git = false,
-        folder = false,
+        folder = true,
         file = false,
         folder_arrow = false,
+      },
+      glyphs = {
+        folder = {
+          default = "-",
+          open = "-",
+          empty = "-",
+          empty_open = "-",
+          symlink = "-",
+          symlink_open = "-",
+        },
       },
     },
   },

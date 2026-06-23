@@ -120,8 +120,45 @@ navbuddy.setup({
   window = {
     border = "single", -- "rounded", "double", "solid", "none"
     -- or an array with eight chars building up the border in a clockwise fashion
-    -- starting with the top-left corner. eg: { "╔", "═" ,"╗", "║", "╝", "═", "╚", "║" }.
+    -- starting with the top-left corner.
     size = "80%", -- Or table format example: { height = "40%", width = "100%"}
+  },
+  node_markers = {
+    enabled = true,
+    icons = {
+      leaf = "  ",
+      leaf_selected = " > ",
+      branch = " +",
+    },
+  },
+  icons = {
+    [1] = "File ", -- File
+    [2] = "Mod ", -- Module
+    [3] = "Ns ", -- Namespace
+    [4] = "Pkg ", -- Package
+    [5] = "Cls ", -- Class
+    [6] = "Meth ", -- Method
+    [7] = "Prop ", -- Property
+    [8] = "Fld ", -- Field
+    [9] = "New ", -- Constructor
+    [10] = "Enum ", -- Enum
+    [11] = "Iface ", -- Interface
+    [12] = "Fn ", -- Function
+    [13] = "Var ", -- Variable
+    [14] = "Const ", -- Constant
+    [15] = "Str ", -- String
+    [16] = "Num ", -- Number
+    [17] = "Bool ", -- Boolean
+    [18] = "Arr ", -- Array
+    [19] = "Obj ", -- Object
+    [20] = "Key ", -- Key
+    [21] = "Null ", -- Null
+    [22] = "Mem ", -- EnumMember
+    [23] = "St ", -- Struct
+    [24] = "Evt ", -- Event
+    [25] = "Op ", -- Operator
+    [26] = "Type ", -- TypeParameter
+    [255] = "Macro ", -- Macro
   },
 })
 
@@ -203,7 +240,18 @@ vim.lsp.config("clangd", {
 
 vim.lsp.enable({ "gopls", "pylsp", "lua_ls", "rust_analyzer", "ts_ls", "clangd", "jdtls" })
 
-vim.diagnostic.config({ virtual_text = false, float = { border = "single" } })
+vim.diagnostic.config({
+  virtual_text = false,
+  float = { border = "single" },
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = "E",
+      [vim.diagnostic.severity.WARN] = "W",
+      [vim.diagnostic.severity.INFO] = "I",
+      [vim.diagnostic.severity.HINT] = "H",
+    },
+  },
+})
 vim.o.updatetime = 250
 local diag_float = vim.api.nvim_create_augroup("LspDiagnosticsFloat", { clear = true })
 vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {

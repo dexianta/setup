@@ -27,6 +27,37 @@ require("lazy").setup({
   {
     "nvim-lualine/lualine.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
+    opts = {
+      options = {
+        icons_enabled = false,
+        component_separators = { left = "", right = "" },
+        section_separators = { left = "", right = "" },
+      },
+      sections = {
+        lualine_a = { "mode" },
+        lualine_b = {
+          function()
+            local ok, head = pcall(vim.fn.FugitiveHead)
+            return ok and head ~= "" and ("git:" .. head) or ""
+          end,
+        },
+        lualine_c = { "filename" },
+        lualine_x = {
+          "encoding",
+          function()
+            return vim.bo.fileformat
+          end,
+          function()
+            return vim.bo.filetype
+          end,
+        },
+        lualine_y = { "progress" },
+        lualine_z = { "location" },
+      },
+    },
+    config = function(_, opts)
+      require("lualine").setup(opts)
+    end,
   },
 
   {
@@ -88,7 +119,13 @@ require("lazy").setup({
 
   {
     "stevearc/aerial.nvim",
-    opts = {},
+    opts = {
+      nerd_font = false,
+      use_icon_provider = false,
+      icons = {
+        Collapsed = ">",
+      },
+    },
     keys = {
       { "<Leader>o", "<cmd>AerialToggle!<CR>", desc = "Toggle Code Outline" },
     },
@@ -165,7 +202,48 @@ require("lazy").setup({
     "folke/trouble.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
-      require("trouble").setup({})
+      require("trouble").setup({
+        icons = {
+          indent = {
+            top = "| ",
+            middle = "+-",
+            last = "`-",
+            fold_open = "- ",
+            fold_closed = "+ ",
+            ws = "  ",
+          },
+          folder_closed = "- ",
+          folder_open = "- ",
+          kinds = {
+            Array = "Arr ",
+            Boolean = "Bool ",
+            Class = "Cls ",
+            Constant = "Const ",
+            Constructor = "New ",
+            Enum = "Enum ",
+            EnumMember = "Mem ",
+            Event = "Evt ",
+            Field = "Fld ",
+            File = "File ",
+            Function = "Fn ",
+            Interface = "Iface ",
+            Key = "Key ",
+            Method = "Meth ",
+            Module = "Mod ",
+            Namespace = "Ns ",
+            Null = "Null ",
+            Number = "Num ",
+            Object = "Obj ",
+            Operator = "Op ",
+            Package = "Pkg ",
+            Property = "Prop ",
+            String = "Str ",
+            Struct = "St ",
+            TypeParameter = "Type ",
+            Variable = "Var ",
+          },
+        },
+      })
     end,
   },
 
@@ -190,7 +268,10 @@ require("lazy").setup({
     "iamcco/markdown-preview.nvim",
     cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
     ft = { "markdown" },
-    build = "cd app && yarn install",
+    build = function(plugin)
+      vim.opt.rtp:prepend(plugin.dir)
+      vim.fn["mkdp#util#install_sync"](true)
+    end,
     init = function()
       vim.g.mkdp_filetypes = { "markdown" }
     end,
@@ -312,16 +393,139 @@ require("lazy").setup({
     ---@type snacks.Config
     opts = {
       --  bigfile = { enabled = true },
-      dashboard = { enabled = true },
+      dashboard = {
+        enabled = true,
+        preset = {
+          header = "NEOVIM",
+          keys = {
+            { icon = "f ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
+            { icon = "n ", key = "n", desc = "New File", action = ":ene | startinsert" },
+            { icon = "g ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
+            { icon = "r ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
+            { icon = "c ", key = "c", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
+            { icon = "s ", key = "s", desc = "Restore Session", section = "session" },
+            { icon = "L ", key = "L", desc = "Lazy", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
+            { icon = "q ", key = "q", desc = "Quit", action = ":qa" },
+          },
+        },
+        sections = {
+          { section = "header" },
+          { section = "keys", gap = 1, padding = 1 },
+          { section = "startup", icon = "* " },
+        },
+      },
       --  explorer = { enabled = true },
       indent = { enabled = true },
-      input = { enabled = true },
+      input = {
+        enabled = true,
+        icon = "> ",
+      },
       notifier = {
         enabled = true,
         timeout = 3000,
+        more_format = " -- %d lines ",
+        icons = {
+          error = "E ",
+          warn = "W ",
+          info = "I ",
+          debug = "D ",
+          trace = "T ",
+        },
       },
       picker = {
         enabled = true,
+        prompt = "> ",
+        icons = {
+          files = {
+            enabled = false,
+            dir = "- ",
+            dir_open = "- ",
+            file = "  ",
+          },
+          keymaps = {
+            nowait = "! ",
+          },
+          tree = {
+            vertical = "| ",
+            middle = "+-",
+            last = "`-",
+          },
+          undo = {
+            saved = "S ",
+          },
+          ui = {
+            live = "* ",
+            hidden = "h",
+            ignored = "i",
+            follow = "f",
+            selected = "* ",
+            unselected = "  ",
+          },
+          git = {
+            enabled = true,
+            commit = "@ ",
+            staged = "S",
+            added = "+",
+            deleted = "-",
+            ignored = "!",
+            modified = "~",
+            renamed = ">",
+            unmerged = "U",
+            untracked = "?",
+          },
+          diagnostics = {
+            Error = "E ",
+            Warn = "W ",
+            Hint = "H ",
+            Info = "I ",
+          },
+          lsp = {
+            unavailable = "x",
+            enabled = "on ",
+            disabled = "off ",
+            attached = "* ",
+          },
+          kinds = {
+            Array = "Arr ",
+            Boolean = "Bool ",
+            Class = "Cls ",
+            Color = "Clr ",
+            Control = "Ctl ",
+            Collapsed = "> ",
+            Constant = "Const ",
+            Constructor = "New ",
+            Copilot = "AI ",
+            Enum = "Enum ",
+            EnumMember = "Mem ",
+            Event = "Evt ",
+            Field = "Fld ",
+            File = "File ",
+            Folder = "Dir ",
+            Function = "Fn ",
+            Interface = "Iface ",
+            Key = "Key ",
+            Keyword = "Key ",
+            Method = "Meth ",
+            Module = "Mod ",
+            Namespace = "Ns ",
+            Null = "Null ",
+            Number = "Num ",
+            Object = "Obj ",
+            Operator = "Op ",
+            Package = "Pkg ",
+            Property = "Prop ",
+            Reference = "Ref ",
+            Snippet = "Snip ",
+            String = "Str ",
+            Struct = "St ",
+            Text = "Txt ",
+            TypeParameter = "Type ",
+            Unit = "Unit ",
+            Unknown = "? ",
+            Value = "Val ",
+            Variable = "Var ",
+          },
+        },
         grep = {
           cmd = "rg",
           args = {
